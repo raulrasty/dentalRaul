@@ -118,6 +118,8 @@ npm start
 
 > El servidor puede tardar ~30 segundos en arrancar si lleva un rato inactivo (plan gratuito de Render).
 
+> **Nota:** Aplicación optimizada para escritorio. Uso previsto en ordenadores de clínica.
+
 Puedes acceder con el usuario invitado (solo lectura):
 
 - **Email:** invitado@dentalraul.com
