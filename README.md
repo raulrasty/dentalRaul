@@ -114,6 +114,10 @@ npm start
 
 ## Demo
 
+🔗 **[https://dentalraul.onrender.com](https://dentalraul.onrender.com)**
+
+> El servidor puede tardar ~30 segundos en arrancar si lleva un rato inactivo (plan gratuito de Render).
+
 Puedes acceder con el usuario invitado (solo lectura):
 
 - **Email:** invitado@dentalraul.com
