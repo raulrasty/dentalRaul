@@ -1,0 +1,127 @@
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.stat-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* Dashboard grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.dashboard-grid .card:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Cita item */
+.cita-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.82rem;
+}
+.cita-item:last-child { border-bottom: none; }
+
+.cita-hora {
+  background: var(--primary);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  min-width: 52px;
+  text-align: center;
+}
+
+.cita-info { flex: 1; min-width: 0; }
+.cita-paciente { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cita-especialidad { font-size: 0.75rem; color: var(--text-muted); }
+.cita-doctor { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+
+/* Paciente item */
+.paciente-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+.paciente-item:last-child { border-bottom: none; }
+
+.paciente-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.paciente-info { flex: 1; }
+.paciente-nombre { font-weight: 600; font-size: 0.82rem; }
+.paciente-fecha { font-size: 0.72rem; color: var(--text-muted); }
+
+/* Pago item */
+.pago-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.82rem;
+}
+.pago-item:last-child { border-bottom: none; }
+.pago-paciente { font-weight: 600; }
+.pago-fecha { font-size: 0.72rem; color: var(--text-muted); }
+.pago-importe { font-weight: 700; color: var(--warning); }
+
+/* Badges estado cita */
+.badge-confirmada  { background: #e6f4ec; color: #1a7a45; }
+.badge-en_espera   { background: #fef3cd; color: #92640a; }
+.badge-en_consulta { background: #e0edff; color: #1a4f8a; }
+.badge-completed   { background: #e6f4ec; color: #1a7a45; }
+.badge-cancelled   { background: var(--danger-bg); color: var(--danger); }
+
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .dashboard-grid .card:first-child { grid-column: 1; }
+}

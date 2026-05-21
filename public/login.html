@@ -11,7 +11,7 @@
 
   <div class="login-wrapper">
 
-    <!-- Panel izquierdo decorativo -->
+    <!-- Panel izquierdo -->
     <div class="login-brand">
       <div class="brand-content">
         <div class="brand-logo">
@@ -24,27 +24,16 @@
         <h1 class="brand-title">DentalRaúl</h1>
         <p class="brand-subtitle">Sistema de gestión clínica</p>
         <div class="brand-features">
-          <div class="brand-feature">
-            <span class="feature-icon">👤</span>
-            <span>Gestión de pacientes</span>
-          </div>
-          <div class="brand-feature">
-            <span class="feature-icon">📅</span>
-            <span>Control de citas</span>
-          </div>
-          <div class="brand-feature">
-            <span class="feature-icon">🦷</span>
-            <span>Historial clínico</span>
-          </div>
-          <div class="brand-feature">
-            <span class="feature-icon">💳</span>
-            <span>Gestión de pagos</span>
-          </div>
+          <div class="brand-feature"><span>Gestión de pacientes</span></div>
+          <div class="brand-feature"><span>Agenda y citas</span></div>
+          <div class="brand-feature"><span>Historial clínico</span></div>
+          <div class="brand-feature"><span>Presupuestos</span></div>
+          <div class="brand-feature"><span>Gestión de pagos</span></div>
         </div>
       </div>
     </div>
 
-    <!-- Panel derecho con formulario -->
+    <!-- Panel derecho -->
     <div class="login-form-panel">
       <div class="login-form-container">
         <h2>Bienvenido</h2>
@@ -53,7 +42,6 @@
         <div id="error-msg" class="alert alert-error hidden"></div>
         <div id="success-msg" class="alert alert-success hidden"></div>
 
-        <!-- Login -->
         <form id="login-form">
           <div class="form-group">
             <label for="email">Correo electrónico</label>
@@ -74,12 +62,23 @@
           </button>
         </form>
 
+        <!-- Divider invitado -->
+        <div class="guest-divider"><span>o</span></div>
+
+        <button class="btn-guest" id="btn-invitado">
+          
+          <div class="guest-text">
+            <span>Entrar como invitado</span>
+            <small>Solo lectura · Sin modificaciones</small>
+          </div>
+        </button>
+
         <div class="form-divider">
           <span>¿No tienes cuenta?</span>
           <button class="link-btn" id="show-registro">Regístrate aquí</button>
         </div>
 
-        <!-- Registro (oculto por defecto) -->
+        <!-- Registro -->
         <form id="registro-form" class="hidden">
           <div class="form-group">
             <label for="reg-nombre">Nombre completo</label>
@@ -93,9 +92,7 @@
             <label for="reg-password">Contraseña</label>
             <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required>
           </div>
-          <button type="submit" class="btn-submit">
-            <span>Crear cuenta</span>
-          </button>
+          <button type="submit" class="btn-submit"><span>Crear cuenta</span></button>
         </form>
 
         <div id="toggle-registro" class="form-divider hidden">
@@ -105,7 +102,6 @@
 
       </div>
     </div>
-
   </div>
 
   <script src="js/config.js"></script>

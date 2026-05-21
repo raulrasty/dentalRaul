@@ -1,0 +1,52 @@
+/* =============================================
+   DENTALRAÚL — pacientes.css
+   ============================================= */
+
+.search-bar { position: relative; }
+
+.search-bar input {
+  width: 100%;
+  padding: 0.42rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(26,79,138,0.12);
+}
+
+/* Avatar en tabla */
+.paciente-tabla-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.paciente-nombre-cell {
+  display: flex;
+  align-items: center;
+}
+
+.paciente-nombre-link {
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.82rem;
+}
+.paciente-nombre-link:hover { text-decoration: underline; }

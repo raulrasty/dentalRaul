@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentalRaúl – Ficha Paciente</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/paciente-detalle.css">
+  <link rel="stylesheet" href="css/periodontograma.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+
+  <div class="app-layout">
+    <main class="main-content">
+
+      <!-- Header paciente -->
+      <div class="paciente-header card mb-2">
+        <div class="paciente-header-left">
+          <div class="paciente-avatar-lg" id="paciente-iniciales">—</div>
+          <div class="paciente-header-info">
+            <h1 id="paciente-nombre">Cargando...</h1>
+            <div class="paciente-meta">
+              <span id="paciente-dni">—</span>
+              <span>·</span>
+              <span id="paciente-telefono">—</span>
+              <span>·</span>
+              <span id="paciente-email">—</span>
+              <span>·</span>
+              <span id="paciente-edad">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="paciente-header-actions">
+          <button class="btn btn-secondary" onclick="abrirModalReceta()">Receta</button>
+          <a href="/pacientes.html" class="btn btn-secondary">← Volver</a>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="detalle-stats mb-2">
+        <div class="detalle-stat">
+          <span class="detalle-stat-valor" id="stat-tratamientos">—</span>
+          <span class="detalle-stat-label">Tratamientos</span>
+        </div>
+        <div class="detalle-stat">
+          <span class="detalle-stat-valor" id="stat-pagado">—</span>
+          <span class="detalle-stat-label">Total pagado</span>
+        </div>
+        <div class="detalle-stat">
+          <span class="detalle-stat-valor" id="stat-pendiente">—</span>
+          <span class="detalle-stat-label">Pendiente pago</span>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs mb-2">
+        <button class="tab active" data-tab="odontograma">Odontograma</button>
+        <button class="tab" data-tab="antecedentes">Antecedentes</button>
+        <button class="tab" data-tab="tratamientos">Tratamientos</button>
+        <button class="tab" data-tab="pagos">Pagos</button>
+        <button class="tab" data-tab="presupuestos">Presupuestos</button>
+        <button class="tab" data-tab="documentos">Documentos</button>
+        <button class="tab" data-tab="periodontograma">Periodontograma</button>
+      </div>
+
+      <!-- TAB: ODONTOGRAMA -->
+      <div id="tab-odontograma" class="tab-content">
+        <div class="detalle-layout">
+          <div class="odontograma-panel card">
+            <div class="card-header">
+              <span class="card-title">Odontograma</span>
+              <div class="odonto-controles">
+                <button class="btn-dent-tipo active" id="btn-adulto" onclick="cambiarDenticion('adulto')">Adulto</button>
+                <button class="btn-dent-tipo" id="btn-nino" onclick="cambiarDenticion('nino')">Niño</button>
+              </div>
+            </div>
+            <div class="cuadrantes-selector">
+              <span class="cuadrante-label">Cuadrante:</span>
+              <div class="cuadrantes-btns">
+                <button class="btn-cuadrante" onclick="seleccionarCuadrante(1)">↗ S.Der</button>
+                <button class="btn-cuadrante" onclick="seleccionarCuadrante(2)">↖ S.Izq</button>
+                <button class="btn-cuadrante" onclick="seleccionarCuadrante(3)">↙ I.Izq</button>
+                <button class="btn-cuadrante" onclick="seleccionarCuadrante(4)">↘ I.Der</button>
+                <button class="btn-cuadrante btn-cuadrante-all" onclick="seleccionarCuadrante(0)">Todo</button>
+                <button class="btn-cuadrante btn-cuadrante-clear" onclick="limpiarSeleccion()">Limpiar</button>
+              </div>
+            </div>
+            <div class="odontograma-wrapper">
+              <div id="odontograma"></div>
+            </div>
+            <div class="seleccion-info">
+              <span class="seleccion-label">Seleccionados:</span>
+              <span id="dientes-seleccionados-label" class="seleccion-dientes">Ninguno</span>
+              <button class="btn btn-primary btn-sm" id="btn-nuevo-tratamiento" onclick="abrirModalTratamiento()" disabled>
+                + Añadir tratamiento
+              </button>
+            </div>
+          </div>
+          <div class="card" style="padding:1.25rem;">
+            <div class="card-header">
+              <span class="card-title">Últimos tratamientos</span>
+            </div>
+            <div id="historial-odonto"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: ANTECEDENTES -->
+      <div id="tab-antecedentes" class="tab-content hidden">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Historia clínica</span>
+            <button class="btn btn-primary btn-sm" id="btn-guardar-antecedentes">Guardar</button>
+          </div>
+          <div class="antecedentes-grid">
+            <div class="antecedente-grupo">
+              <label class="antecedente-label">Enfermedades sistémicas</label>
+              <textarea id="ant-enfermedades" placeholder="Ej: Diabetes tipo 2, Hipertensión..."></textarea>
+            </div>
+            <div class="antecedente-grupo">
+              <label class="antecedente-label">Alergias</label>
+              <textarea id="ant-alergias" placeholder="Ej: Penicilina, Látex, AINES..."></textarea>
+            </div>
+            <div class="antecedente-grupo">
+              <label class="antecedente-label">Medicación actual</label>
+              <textarea id="ant-medicacion" placeholder="Ej: Metformina 850mg..."></textarea>
+            </div>
+            <div class="antecedente-grupo">
+              <label class="antecedente-label">Intervenciones previas</label>
+              <textarea id="ant-operaciones" placeholder="Ej: Apendicectomía 2015..."></textarea>
+            </div>
+            <div class="antecedente-grupo">
+              <label class="antecedente-label">Hábitos</label>
+              <textarea id="ant-habitos" placeholder="Ej: Fumador, Bruxismo..."></textarea>
+            </div>
+            <div class="antecedente-grupo antecedente-grupo-full">
+              <label class="antecedente-label">Observaciones generales</label>
+              <textarea id="ant-observaciones" placeholder="Cualquier otra información relevante..."></textarea>
+            </div>
+          </div>
+          <div id="ant-alert" class="mt-1"></div>
+        </div>
+      </div>
+
+      <!-- TAB: TRATAMIENTOS -->
+      <div id="tab-tratamientos" class="tab-content hidden">
+        <div class="flex-between mb-2">
+          <h2>Tratamientos</h2>
+          <button class="btn btn-primary" onclick="abrirModalTratamientoDirecto()">+ Nuevo tratamiento</button>
+        </div>
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Diente(s)</th>
+                  <th>Tratamiento</th>
+                  <th>Doctor</th>
+                  <th>Fecha</th>
+                  <th>Descripción</th>
+                  <th>Importe</th>
+                  <th>Estado</th>
+                  <th>Pago</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-tratamientos"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PAGOS -->
+      <div id="tab-pagos" class="tab-content hidden">
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tratamiento</th>
+                  <th>Importe</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-pagos"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PRESUPUESTOS -->
+      <div id="tab-presupuestos" class="tab-content hidden">
+        <div class="flex-between mb-2">
+          <h2>Presupuestos</h2>
+          <a class="btn btn-primary" href="/presupuestos.html">+ Nuevo presupuesto</a>
+        </div>
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tratamientos</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-presupuestos-paciente"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: DOCUMENTOS -->
+      <div id="tab-documentos" class="tab-content hidden">
+        <div class="flex-between mb-2">
+          <h2>Documentos</h2>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <select id="filtro-doc-tipo" onchange="filtrarDocumentos()" style="padding:0.42rem 0.65rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.82rem;background:var(--surface);">
+              <option value="">Todos los tipos</option>
+              <option value="informe">Informe médico</option>
+              <option value="consentimiento">Consentimiento</option>
+              <option value="periodontograma">Periodontograma</option>
+              <option value="radiografia">Radiografía</option>
+              <option value="presupuesto">Presupuesto</option>
+              <option value="otro">Otro</option>
+            </select>
+            <button class="btn btn-primary" onclick="abrirSubidaDoc()">Subir documento</button>
+          </div>
+        </div>
+        <div id="documentos-lista" class="documentos-grid"></div>
+        <div id="form-subida-doc" class="card hidden" style="margin-top:1rem;">
+          <div class="card-header"><span class="card-title">Subir nuevo documento</span></div>
+          <div class="modal-body">
+            <div id="doc-alert"></div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nombre del documento *</label>
+                <input type="text" id="doc-nombre" placeholder="Ej: Consentimiento informado extracción...">
+              </div>
+              <div class="form-group">
+                <label>Tipo</label>
+                <select id="doc-tipo">
+                  <option value="informe">Informe médico</option>
+                  <option value="consentimiento">Consentimiento informado</option>
+                  <option value="periodontograma">Periodontograma</option>
+                  <option value="radiografia">Radiografía</option>
+                  <option value="presupuesto">Presupuesto firmado</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Archivo (PDF o imagen, máx. 10MB) *</label>
+              <input type="file" id="doc-archivo" accept=".pdf,image/*">
+            </div>
+            <div class="flex-between mt-1">
+              <button class="btn btn-secondary" onclick="cerrarSubidaDoc()">Cancelar</button>
+              <button class="btn btn-primary" onclick="subirDocumento()">Subir</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PERIODONTOGRAMA -->
+      <div id="tab-periodontograma" class="tab-content hidden">
+
+        <!-- Lista -->
+        <div id="perio-lista-view">
+          <div class="flex-between mb-2">
+            <h2>Periodontogramas</h2>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn btn-secondary" onclick="abrirComparacion()" id="btn-comparar">Comparar</button>
+              <button class="btn btn-primary" onclick="nuevoPeriodontograma()">+ Nuevo periodontograma</button>
+            </div>
+          </div>
+          <div id="perio-lista"></div>
+        </div>
+
+        <!-- Editor -->
+        <div id="perio-editor-view" class="hidden">
+          <div class="flex-between mb-2">
+            <h2 id="perio-editor-titulo">Nuevo periodontograma</h2>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn btn-secondary" onclick="volverListaPerio()">← Volver</button>
+              <button class="btn btn-secondary" onclick="exportarPeriodontogramaPDF(
+                document.getElementById('paciente-nombre').textContent,
+                document.getElementById('perio-fecha').value,
+                document.getElementById('perio-notas').value
+              )">PDF</button>
+              <button class="btn btn-primary" onclick="guardarPerio()">Guardar</button>
+            </div>
+          </div>
+          <div class="perio-controles">
+            <div class="form-group" style="margin:0;flex:1;">
+              <label>Fecha</label>
+              <input type="date" id="perio-fecha" style="padding:0.4rem 0.75rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:0.88rem;">
+            </div>
+            <div class="form-group" style="margin:0;flex:2;">
+              <label>Notas</label>
+              <input type="text" id="perio-notas" placeholder="Observaciones del periodontograma..." style="padding:0.4rem 0.75rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:0.88rem;width:100%;">
+            </div>
+            <div id="perio-alert"></div>
+          </div>
+          <div class="card" style="padding:1rem;">
+            <div id="perio-container"></div>
+          </div>
+        </div>
+
+        <!-- Comparación -->
+        <div id="perio-comparacion-view" class="hidden">
+          <div class="flex-between mb-2">
+            <h2>Comparar periodontogramas</h2>
+            <button class="btn btn-secondary" onclick="volverDesdeComparacion()">← Volver</button>
+          </div>
+          <div class="card" style="padding:1rem;margin-bottom:1rem;">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Periodontograma A (más antiguo)</label>
+                <select id="comp-sel-a" onchange="generarComparacion()"></select>
+              </div>
+              <div class="form-group">
+                <label>Periodontograma B (más reciente)</label>
+                <select id="comp-sel-b" onchange="generarComparacion()"></select>
+              </div>
+            </div>
+          </div>
+          <div id="comp-resultado"></div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal tratamiento -->
+  <div class="modal-overlay" id="modal-tratamiento">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-trat-titulo">Nuevo tratamiento</h3>
+        <button class="modal-close" id="modal-trat-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-trat-alert"></div>
+        <input type="hidden" id="trat-id">
+        <div class="dientes-resumen mb-2">
+          <span class="dientes-resumen-label">Dientes:</span>
+          <span id="trat-dientes-label" class="dientes-tags"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:var(--surface-alt);border-radius:var(--radius);border:1px solid var(--border-light);">
+          <label style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;">Modo:</label>
+          <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.82rem;cursor:pointer;">
+            <input type="radio" name="trat-modo" id="modo-individual" value="individual" checked>
+            Un tratamiento por diente
+          </label>
+          <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.82rem;cursor:pointer;">
+            <input type="radio" name="trat-modo" id="modo-global" value="global">
+            Un tratamiento global (precio total)
+          </label>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tratamiento *</label>
+            <div style="position:relative;">
+              <input type="text" id="trat-nombre" placeholder="Buscar en catálogo o escribir..." autocomplete="off"
+                oninput="buscarEnCatalogo(this.value)">
+              <div id="catalogo-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--primary);border-radius:var(--radius);box-shadow:var(--shadow-md);z-index:5000;max-height:200px;overflow-y:auto;"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Doctor *</label>
+            <select id="trat-doctor">
+              <option value="">Seleccionar doctor...</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" id="trat-fecha">
+          </div>
+          <div class="form-group">
+            <label>Cuadrante (si aplica)</label>
+            <select id="trat-cuadrante">
+              <option value="">Sin cuadrante</option>
+              <option value="Superior derecho">Superior derecho</option>
+              <option value="Superior izquierdo">Superior izquierdo</option>
+              <option value="Inferior izquierdo">Inferior izquierdo</option>
+              <option value="Inferior derecho">Inferior derecho</option>
+              <option value="Arcada superior">Arcada superior</option>
+              <option value="Arcada inferior">Arcada inferior</option>
+              <option value="Boca completa">Boca completa</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea id="trat-descripcion" placeholder="Descripción del tratamiento..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Presupuesto (€)</label>
+            <input type="number" id="trat-presupuesto" placeholder="0.00" step="0.01" min="0">
+          </div>
+          <div class="form-group">
+            <label>Estado del pago</label>
+            <select id="trat-pago-estado">
+              <option value="pendiente">Pendiente</option>
+              <option value="pagado">Pagado</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-trat-cancelar">Cancelar</button>
+        <button class="btn btn-danger hidden" id="btn-trat-eliminar">Eliminar</button>
+        <button class="btn btn-primary" id="btn-trat-guardar">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal completar tratamiento -->
+  <div class="modal-overlay" id="modal-completar">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Completar tratamiento</h3>
+        <button class="modal-close" id="btn-completar-cancelar">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="comp-trat-id">
+        <div class="mb-2" style="font-weight:600;font-size:1rem;color:var(--primary);" id="comp-trat-nombre"></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Doctor que realizó el tratamiento</label>
+            <select id="comp-trat-doctor">
+              <option value="">Seleccionar doctor...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Fecha de realización</label>
+            <input type="date" id="comp-trat-fecha">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Descripción del tratamiento realizado</label>
+          <textarea id="comp-trat-descripcion" placeholder="Describe el procedimiento realizado, materiales usados, observaciones..." style="min-height:120px;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Precio final (€)</label>
+          <input type="number" id="comp-trat-precio" placeholder="0.00" step="0.01" min="0">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-completar-cancelar">Cancelar</button>
+        <button class="btn btn-success" id="btn-completar-guardar">Marcar como completado</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Receta Médica -->
+  <div class="modal-overlay" id="modal-receta">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3>Receta médica</h3>
+        <button class="modal-close" onclick="document.getElementById('modal-receta').classList.remove('active')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="receta-alert"></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Doctor</label>
+            <select id="receta-doctor">
+              <option value="">Seleccionar doctor...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nº Colegiado</label>
+            <input type="text" id="receta-colegiado" placeholder="12345">
+          </div>
+        </div>
+        <div id="receta-medicamentos"></div>
+        <button class="btn btn-secondary btn-sm" onclick="añadirMedicamento()" style="margin-bottom:1rem;">+ Añadir medicamento</button>
+        <div class="form-group">
+          <label>Observaciones</label>
+          <textarea id="receta-observaciones" placeholder="Tomar con alimentos, evitar alcohol..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modal-receta').classList.remove('active')">Cancelar</button>
+        <button class="btn btn-primary" onclick="imprimirReceta()">Generar PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/route-guard.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/paciente-detalle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/periodontograma.js"></script>
+  <script src="js/periodontograma-comparacion.js"></script>
+  <script src="js/pdf-receta.js"></script>
+</body>
+</html>

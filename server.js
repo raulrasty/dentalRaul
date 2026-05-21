@@ -13,12 +13,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Rutas API
-app.use("/api/auth",        require("./routes/authRoutes"));
-//app.use("/api/usuarios",    require("./routes/usuariosRoutes"));
-app.use("/api/pacientes",   require("./routes/pacientesRoutes"));
-app.use("/api/citas",       require("./routes/citasRoutes"));
-app.use("/api/historiales", require("./routes/historialesRoutes"));
-app.use("/api/pagos",       require("./routes/pagosRoutes"));
+app.use("/api/auth",             require("./routes/authRoutes"));
+app.use("/api/usuarios",         require("./routes/usuariosRoutes"));
+app.use("/api/pacientes",        require("./routes/pacientesRoutes"));
+app.use("/api/citas",            require("./routes/citasRoutes"));
+app.use("/api/historiales",      require("./routes/historialesRoutes"));
+app.use("/api/pagos",            require("./routes/pagosRoutes"));
+app.use("/api/bloqueos",         require("./routes/bloqueosRoutes"));
+app.use("/api/antecedentes",     require("./routes/antecedentesRoutes"));
+app.use("/api/catalogo",         require("./routes/catalogoRoutes"));
+app.use("/api/presupuestos",     require("./routes/presupuestosRoutes"));
+app.use("/api/documentos",       require("./routes/documentosRoutes"));
+app.use("/api/periodontogramas", require("./routes/periodontogramaRoutes"));
 
 // Servir componentes
 app.use("/components", express.static(path.join(__dirname, "components")));

@@ -1,0 +1,559 @@
+/* =============================================
+   DENTALRAÚL — agenda.css
+   ============================================= */
+
+/* Vista toggle */
+.vista-toggle {
+  display: flex;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.btn-vista {
+  padding: 0.35rem 1rem;
+  border: none;
+  background: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-vista.active {
+  background: var(--primary);
+  color: white;
+}
+.btn-vista:hover:not(.active) {
+  background: var(--border);
+  color: var(--text);
+}
+
+/* Controles */
+.agenda-controles {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.controles-panel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.agenda-select {
+  padding: 0.42rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  color: var(--text);
+  background: var(--surface);
+  min-width: 220px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+.agenda-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.semana-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.semana-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 180px;
+  text-align: center;
+}
+
+/* Leyenda */
+.leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.leyenda-item::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--color);
+  flex-shrink: 0;
+}
+
+/* Wrapper agenda */
+.agenda-wrapper {
+  overflow-x: auto;
+  padding: 0;
+}
+
+/* Grid por doctor (semana) */
+.agenda-semana {
+  display: grid;
+  min-width: 700px;
+}
+
+.agenda-semana-header {
+  display: grid;
+  grid-template-columns: 60px repeat(5, 1fr);
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 10;
+}
+
+.agenda-semana-header .col-header {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-left: 1px solid var(--border);
+}
+
+.agenda-semana-header .col-header.hoy {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.agenda-semana-header .col-hora {
+  border-left: none;
+}
+
+.agenda-body {
+  display: grid;
+  grid-template-columns: 60px repeat(5, 1fr);
+}
+
+/* Columna de horas */
+.col-horas {
+  display: flex;
+  flex-direction: column;
+}
+
+.hora-label {
+  height: 30px; /* 15min = 30px */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+.hora-label.hora-entera {
+  font-weight: 600;
+  color: var(--text-muted);
+  border-top: 2px solid var(--border);
+}
+
+/* Columnas de días */
+.col-dia {
+  position: relative;
+  border-left: 1px solid var(--border);
+}
+
+.slot {
+  height: 30px;
+  border-bottom: 1px solid #edf1f7;
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+}
+
+.slot:hover {
+  background: var(--primary-light);
+}
+
+.slot.hora-entera {
+  border-top: 2px solid #c8d4e3;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.slot.media-hora {
+  border-bottom: 1px solid #edf1f7;
+}
+
+.slot.cuarto {
+  border-bottom: 1px solid #edf1f7;
+}
+
+/* Citas en la agenda */
+.agenda-cita {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  border-radius: 2px;
+  padding: 3px 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  z-index: 5;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  transition: filter 0.15s, transform 0.15s;
+  line-height: 1.3;
+}
+
+.agenda-cita:hover {
+  filter: brightness(0.92);
+  transform: scaleX(0.98);
+  z-index: 6;
+}
+
+.agenda-cita .cita-paciente-nombre {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.agenda-cita .cita-hora-label {
+  font-size: 0.68rem;
+  opacity: 0.85;
+}
+
+.agenda-cita.cancelada {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+/* Grid por día (columnas por doctor) */
+.agenda-dia-header {
+  display: flex;
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 10;
+}
+
+.agenda-dia-body {
+  display: flex;
+}
+
+.col-doctor-header {
+  flex: 1;
+  height: 56px;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  border-left: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.col-doctor {
+  flex: 1;
+  position: relative;
+  border-left: 1px solid var(--border);
+  min-width: 160px;
+}
+
+/* Colores por especialidad */
+.esp-odontologia-general { background: #3b82f6; }
+.esp-ortodoncia          { background: #8b5cf6; }
+.esp-endodoncia          { background: #ef4444; }
+.esp-periodoncia         { background: #f59e0b; }
+.esp-implantologia       { background: #10b981; }
+.esp-cirugia-oral        { background: #ec4899; }
+.esp-odontopediatria     { background: #06b6d4; }
+.esp-estetica-dental     { background: #84cc16; }
+.esp-blanqueamiento      { background: #f97316; }
+.esp-urgencia            { background: #dc2626; }
+.esp-default             { background: #64748b; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .semana-label { min-width: 140px; font-size: 0.8rem; }
+  .vista-toggle { width: 100%; }
+  .btn-vista    { flex: 1; text-align: center; }
+}
+
+/* =====================
+   DRAG & RESIZE
+   ===================== */
+.agenda-cita {
+  user-select: none;
+}
+
+.cita-drag-handle {
+  cursor: grab;
+  flex: 1;
+  overflow: hidden;
+  padding: 3px 6px;
+}
+.cita-drag-handle:active { cursor: grabbing; }
+
+.cita-resize-handle {
+  height: 6px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 0 0 2px 2px;
+  cursor: ns-resize;
+  flex-shrink: 0;
+}
+.cita-resize-handle:hover {
+  background: rgba(0,0,0,0.35);
+}
+
+.agenda-cita {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* =====================
+   CITA — CONTENIDO
+   ===================== */
+.cita-motivo {
+  display: block;
+  font-size: 0.68rem;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 400;
+}
+
+/* Citas muy pequeñas (15 min) */
+.agenda-cita.cita-xs .cita-motivo,
+.agenda-cita.cita-xs .cita-hora-label {
+  display: none;
+}
+.agenda-cita.cita-xs .cita-paciente-nombre {
+  font-size: 0.7rem;
+  line-height: 1.1;
+}
+.agenda-cita.cita-xs .cita-drag-handle {
+  padding: 2px 5px;
+}
+.agenda-cita.cita-xs .cita-resize-handle {
+  height: 4px;
+}
+
+/* Citas de 30 min */
+.agenda-cita.cita-sm .cita-motivo {
+  display: none;
+}
+.agenda-cita.cita-sm .cita-hora-label {
+  font-size: 0.65rem;
+}
+
+/* =====================
+   MENÚ CONTEXTUAL
+   ===================== */
+.context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 9999;
+  min-width: 180px;
+  overflow: hidden;
+  animation: ctx-in 0.12s ease;
+}
+
+@keyframes ctx-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.context-item {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.context-item:hover { background: var(--surface-alt); }
+.context-item.context-danger { color: var(--danger); }
+.context-item.context-danger:hover { background: #fde8e8; }
+
+.context-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 2px 0;
+}
+
+/* =====================
+   ESTADOS DE CITA
+   ===================== */
+
+/* Barra lateral de estado */
+.cita-estado-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 2px 0 0 2px;
+  background: rgba(255,255,255,0.4);
+}
+
+/* Pendiente — normal, sin cambios */
+.agenda-cita.estado-pendiente { opacity: 1; }
+
+/* Confirmada — borde blanco brillante */
+.agenda-cita.estado-confirmada .cita-estado-bar {
+  background: white;
+  box-shadow: 0 0 6px rgba(255,255,255,0.8);
+}
+
+/* En sala de espera — patrón rayado */
+.agenda-cita.estado-en_espera {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.08) 0px,
+    rgba(255,255,255,0.08) 4px,
+    transparent 4px,
+    transparent 12px
+  );
+}
+.agenda-cita.estado-en_espera .cita-estado-bar {
+  background: #fbbf24;
+}
+
+/* En consulta — borde pulsante */
+.agenda-cita.estado-en_consulta .cita-estado-bar {
+  background: #34d399;
+  animation: pulsar 1.2s ease-in-out infinite;
+}
+@keyframes pulsar {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* Completada — más oscuro y con check */
+.agenda-cita.estado-completada {
+  opacity: 0.7;
+  filter: saturate(0.6);
+}
+.agenda-cita.estado-completada .cita-estado-bar {
+  background: #6ee7b7;
+}
+
+/* Cancelada — tachado y muy desvanecido */
+.agenda-cita.estado-cancelada {
+  opacity: 0.4;
+  filter: grayscale(0.8);
+}
+.agenda-cita.estado-cancelada .cita-paciente-nombre {
+  text-decoration: line-through;
+}
+.agenda-cita.estado-cancelada .cita-estado-bar {
+  background: #f87171;
+}
+
+/* =====================
+   BLOQUEOS
+   ===================== */
+.agenda-bloqueo {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(
+    45deg,
+    #e2e8f0,
+    #e2e8f0 4px,
+    #cbd5e1 4px,
+    #cbd5e1 10px
+  );
+  border: 1px solid #94a3b8;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 4px 6px;
+  font-size: 0.75rem;
+  color: #475569;
+  font-weight: 600;
+  cursor: default;
+  overflow: hidden;
+}
+
+.bloqueo-icon { font-size: 0.9rem; flex-shrink: 0; }
+.bloqueo-texto { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Esquina hora en vista día */
+.agenda-dia-hora-esquina {
+  height: 56px;
+  width: 60px;
+  flex-shrink: 0;
+  border-bottom: 2px solid var(--border);
+}
+
+/* =============================================
+   AÑADIR AL FINAL DE agenda.css
+   Línea de hora actual
+   ============================================= */
+
+.linea-hora-actual {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ef4444;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.linea-hora-actual::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  background: #ef4444;
+  border-radius: 50%;
+}
+
+.linea-hora-actual::after {
+  content: attr(data-hora);
+  position: absolute;
+  left: 4px;
+  top: -9px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #ef4444;
+  background: white;
+  padding: 0 3px;
+  border-radius: 3px;
+  white-space: nowrap;
+}

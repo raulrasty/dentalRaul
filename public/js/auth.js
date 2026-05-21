@@ -1,8 +1,15 @@
+/* =============================================
+   DENTALRAÚL — auth.js
+   Funciones globales de autenticación y layout
+   ============================================= */
 
-
-// Cargar header y sidebar en la página actual
+// Cargar header y sidebar
 async function loadLayout() {
   try {
+    // Ocultar sidebar hasta que esté completamente listo
+    const sidebarPlaceholder = document.getElementById("sidebar-placeholder");
+    if (sidebarPlaceholder) sidebarPlaceholder.style.visibility = "hidden";
+
     const [headerRes, sidebarRes] = await Promise.all([
       fetch("/components/header.html"),
       fetch("/components/sidebar.html")
@@ -16,14 +23,15 @@ async function loadLayout() {
     initHeader();
     initSidebar();
     await loadUsuario();
+
+    // Mostrar sidebar ya con todo cargado y sin saltos
+    if (sidebarPlaceholder) sidebarPlaceholder.style.visibility = "visible";
   } catch (err) {
     console.error("Error cargando layout:", err);
   }
 }
 
-// Inicializar header
 function initHeader() {
-  // Fecha actual
   const dateEl = document.getElementById("header-date");
   if (dateEl) {
     const now = new Date();
@@ -32,13 +40,9 @@ function initHeader() {
     });
   }
 
-  // Botón logout
   const btnLogout = document.getElementById("btn-logout");
-  if (btnLogout) {
-    btnLogout.addEventListener("click", logout);
-  }
+  if (btnLogout) btnLogout.addEventListener("click", logout);
 
-  // Toggle sidebar en móvil
   const toggle = document.getElementById("sidebar-toggle");
   if (toggle) {
     toggle.addEventListener("click", () => {
@@ -47,26 +51,22 @@ function initHeader() {
   }
 }
 
-// Inicializar sidebar — marcar enlace activo
 function initSidebar() {
   const currentPage = window.location.pathname.split("/").pop().replace(".html", "") || "dashboard";
   document.querySelectorAll(".sidebar-link").forEach(link => {
-    if (link.dataset.page === currentPage) {
-      link.classList.add("active");
-    }
+    if (link.dataset.page === currentPage) link.classList.add("active");
   });
 }
 
-// Cargar datos del usuario autenticado
 async function loadUsuario() {
   try {
     const res = await fetch(`${CONFIG.API_URL}/auth/me`, { credentials: "include" });
     if (!res.ok) {
       window.location.href = "/login.html";
-      return;
+      return null;
     }
     const { usuario } = await res.json();
-    const nombre = usuario.user_metadata?.nombre || usuario.email;
+    const nombre    = usuario.nombre ? `${usuario.nombre} ${usuario.apellidos}` : usuario.email;
     const iniciales = nombre.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
 
     const nameEl   = document.getElementById("user-name");
@@ -74,29 +74,73 @@ async function loadUsuario() {
     if (nameEl)   nameEl.textContent   = nombre;
     if (avatarEl) avatarEl.textContent = iniciales;
 
+    // Badge invitado
+    if (usuario.rol === "invitado") {
+      mostrarBadgeInvitado();
+      bloquearAccionesEscritura();
+    }
+
+    // Sección admin en sidebar
+    const seccionAdmin = document.getElementById("seccion-admin");
+    if (seccionAdmin && ["admin"].includes(usuario.rol)) {
+      seccionAdmin.classList.add("visible");
+    }
+
     return usuario;
   } catch {
     window.location.href = "/login.html";
+    return null;
   }
 }
 
-// Cerrar sesión
+// Badge visible para invitados
+function mostrarBadgeInvitado() {
+  const badge = document.createElement("div");
+  badge.className = "invitado-badge";
+  badge.innerHTML = `
+    <span>Modo invitado — Solo lectura</span>
+    <a href="/login.html" class="invitado-badge-login">Iniciar sesión</a>
+  `;
+  document.body.appendChild(badge);
+}
+
+// Bloquear todos los botones de escritura para invitados
+function bloquearAccionesEscritura() {
+  // Esperar a que el DOM esté listo
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll(
+      "button.btn-primary, button.btn-danger, button.btn-success, " +
+      "button[onclick], input[type='file']"
+    ).forEach(el => {
+      // Excluir botones de logout y navegación
+      if (el.id === "btn-logout" || el.closest(".sidebar") || el.closest(".app-header")) return;
+      el.disabled = true;
+      el.style.opacity = "0.4";
+      el.style.cursor  = "not-allowed";
+      el.title = "Modo invitado — solo lectura";
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
 async function logout() {
   await fetch(`${CONFIG.API_URL}/auth/logout`, { method: "POST", credentials: "include" });
   window.location.href = "/login.html";
 }
 
-// Verificar autenticación (usar en páginas protegidas)
+// Proteger páginas — redirige al login si no hay sesión
 async function checkAuth() {
   try {
     const res = await fetch(`${CONFIG.API_URL}/auth/me`, { credentials: "include" });
     if (!res.ok) window.location.href = "/login.html";
+    const { usuario } = await res.json();
+    return usuario;
   } catch {
     window.location.href = "/login.html";
+    return null;
   }
 }
 
-// Helpers de UI
 function showAlert(id, mensaje, tipo = "error") {
   const el = document.getElementById(id);
   if (!el) return;
@@ -104,14 +148,4 @@ function showAlert(id, mensaje, tipo = "error") {
   el.className = `alert alert-${tipo}`;
   el.classList.remove("hidden");
   setTimeout(() => el.classList.add("hidden"), 4000);
-}
-
-function setLoading(btnId, loading) {
-  const btn     = document.getElementById(btnId);
-  const text    = btn?.querySelector("[data-text]");
-  const spinner = btn?.querySelector(".spinner");
-  if (!btn) return;
-  btn.disabled = loading;
-  if (text)    text.classList.toggle("hidden", loading);
-  if (spinner) spinner.classList.toggle("hidden", !loading);
 }

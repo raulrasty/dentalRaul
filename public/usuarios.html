@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentalRaúl – Usuarios</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/usuarios.css">
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+
+  <div class="app-layout">
+    <main class="main-content">
+
+      <div class="flex-between mb-2">
+        <div class="page-title">Usuarios</div>
+        <button class="btn btn-primary" id="btn-nuevo-usuario">+ Nuevo usuario</button>
+      </div>
+
+      <div class="tabs mb-2">
+        <button class="tab active" data-rol="">Todos</button>
+        <button class="tab" data-rol="admin">Administradores</button>
+        <button class="tab" data-rol="doctor">Doctores</button>
+        <button class="tab" data-rol="recepcionista">Recepcionistas</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Especialidad</th>
+                <th>Teléfono</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-usuarios">
+              <tr><td colspan="7">
+                <div class="empty-state">
+                  <div class="empty-state-icon"></div>
+                  <p>Cargando usuarios...</p>
+                </div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal nuevo/editar usuario -->
+  <div class="modal-overlay" id="modal-usuario">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-titulo">Nuevo usuario</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-alert"></div>
+        <input type="hidden" id="usuario-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre *</label>
+            <input type="text" id="u-nombre" placeholder="Nombre" required>
+          </div>
+          <div class="form-group">
+            <label>Apellidos *</label>
+            <input type="text" id="u-apellidos" placeholder="Apellidos" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" id="u-email" placeholder="usuario@clinica.com" required>
+          </div>
+          <div class="form-group">
+            <label>Contraseña <span class="text-muted" id="pass-hint">(mín. 6 caracteres)</span></label>
+            <input type="password" id="u-password" placeholder="••••••••">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Rol *</label>
+            <select id="u-rol">
+              <option value="recepcionista">Recepcionista</option>
+              <option value="doctor">Doctor</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Teléfono</label>
+            <input type="tel" id="u-telefono" placeholder="600 000 000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Especialidad</label>
+          <select id="u-especialidad">
+            <option value="">Sin especialidad</option>
+            <option value="Odontología general">Odontología general</option>
+            <option value="Ortodoncia">Ortodoncia</option>
+            <option value="Endodoncia">Endodoncia</option>
+            <option value="Periodoncia">Periodoncia</option>
+            <option value="Implantología">Implantología</option>
+            <option value="Cirugía oral">Cirugía oral</option>
+            <option value="Odontopediatría">Odontopediatría</option>
+            <option value="Estética dental">Estética dental</option>
+            <option value="Blanqueamiento">Blanqueamiento</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+        <button class="btn btn-primary" id="btn-guardar">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal confirmar desactivar/activar -->
+  <div class="modal-overlay" id="modal-desactivar">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3 id="titulo-desactivar">Desactivar usuario</h3>
+        <button class="modal-close" id="modal-desactivar-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="texto-desactivar"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancelar-desactivar">Cancelar</button>
+        <button class="btn btn-danger" id="btn-confirmar-desactivar">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/usuarios.js"></script>
+</body>
+</html>

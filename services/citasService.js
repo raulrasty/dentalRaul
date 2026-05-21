@@ -3,7 +3,7 @@ const supabase = require("../config/supabaseClient");
 async function getAll() {
   const { data, error } = await supabase
     .from("citas")
-    .select("*, pacientes(nombre, apellidos, telefono)")
+    .select("*, pacientes(nombre, apellidos, telefono), usuarios(nombre, apellidos)")
     .order("fecha").order("hora");
   if (error) throw new Error(error.message);
   return data;
@@ -13,7 +13,7 @@ async function getHoy() {
   const hoy = new Date().toISOString().split("T")[0];
   const { data, error } = await supabase
     .from("citas")
-    .select("*, pacientes(nombre, apellidos, telefono)")
+    .select("*, pacientes(nombre, apellidos, telefono), usuarios(nombre, apellidos)")
     .eq("fecha", hoy)
     .order("hora");
   if (error) throw new Error(error.message);

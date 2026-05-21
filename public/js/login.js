@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorMsg     = document.getElementById("error-msg");
   const successMsg   = document.getElementById("success-msg");
 
-  // Toggle entre login y registro
+  // Toggle login/registro
   showRegistro.addEventListener("click", () => {
     loginForm.classList.add("hidden");
     registroForm.classList.remove("hidden");
@@ -39,11 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
     input.type = input.type === "password" ? "text" : "password";
   });
 
-  // Login
+  // Login normal
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     hideAlerts();
-    setBtnLoading("btn-login", true);
+    setBtnLoading(true);
 
     const email    = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
@@ -55,15 +55,40 @@ document.addEventListener("DOMContentLoaded", () => {
         credentials: "include",
         body: JSON.stringify({ email, password })
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-
       window.location.href = "/dashboard.html";
     } catch (err) {
       showMsg(errorMsg, err.message || "Error al iniciar sesión");
     } finally {
-      setBtnLoading("btn-login", false);
+      setBtnLoading(false);
+    }
+  });
+
+  // Botón invitado
+  document.getElementById("btn-invitado").addEventListener("click", async () => {
+    hideAlerts();
+    const btn = document.getElementById("btn-invitado");
+    btn.disabled = true;
+    btn.querySelector("span").textContent = "Entrando...";
+
+    try {
+      const res = await fetch(`${CONFIG.API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          email:    "invitado@dentalraul.com",
+          password: "invitado1234"
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error("No se pudo entrar como invitado");
+      window.location.href = "/dashboard.html";
+    } catch (err) {
+      showMsg(errorMsg, err.message);
+      btn.disabled = false;
+      btn.querySelector("span").textContent = "Entrar como invitado";
     }
   });
 
@@ -71,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
   registroForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     hideAlerts();
-
     const nombre   = document.getElementById("reg-nombre").value.trim();
     const email    = document.getElementById("reg-email").value.trim();
     const password = document.getElementById("reg-password").value;
@@ -80,25 +104,21 @@ document.addEventListener("DOMContentLoaded", () => {
       showMsg(errorMsg, "La contraseña debe tener al menos 6 caracteres");
       return;
     }
-
     try {
       const res = await fetch(`${CONFIG.API_URL}/auth/registro`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, email, password })
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-
-      showMsg(successMsg, "Cuenta creada. Revisa tu email para confirmar el registro.");
+      showMsg(successMsg, "Cuenta creada. Revisa tu email para confirmar.");
       registroForm.reset();
     } catch (err) {
       showMsg(errorMsg, err.message || "Error al registrar");
     }
   });
 
-  // Helpers
   function showMsg(el, texto) {
     el.textContent = texto;
     el.classList.remove("hidden");
@@ -109,8 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
     successMsg.classList.add("hidden");
   }
 
-  function setBtnLoading(id, loading) {
-    const btn     = document.getElementById(id);
+  function setBtnLoading(loading) {
+    const btn     = document.getElementById("btn-login");
     const text    = document.getElementById("btn-text");
     const spinner = document.getElementById("btn-spinner");
     if (btn)     btn.disabled = loading;

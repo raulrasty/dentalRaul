@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentalRaúl – Catálogo</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+
+  <div class="app-layout">
+    <main class="main-content">
+
+      <div class="flex-between mb-2">
+        <div class="page-title">Catálogo de tratamientos</div>
+        <button class="btn btn-primary" id="btn-nuevo">+ Nuevo tratamiento</button>
+      </div>
+
+      <!-- Filtro por categoría -->
+      <div class="filtros mb-2">
+        <select id="filtro-categoria">
+          <option value="">Todas las categorías</option>
+          <option>Conservadora</option>
+          <option>Endodoncia</option>
+          <option>Periodoncia</option>
+          <option>Cirugía oral</option>
+          <option>Implantología</option>
+          <option>Ortodoncia</option>
+          <option>Prótesis</option>
+          <option>Estética dental</option>
+          <option>Odontopediatría</option>
+          <option>Diagnóstico</option>
+          <option>DTM</option>
+          <option>Anestesia</option>
+          <option>Urgencias</option>
+        </select>
+        <input type="text" id="filtro-buscar" placeholder="Buscar tratamiento...">
+      </div>
+
+      <div class="card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Tratamiento</th>
+                <th>Descripción</th>
+                <th>Precio base</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-catalogo">
+              <tr><td colspan="6">
+                <div class="empty-state">
+                  <div class="empty-state-icon"></div>
+                  <p>Cargando catálogo...</p>
+                </div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal nuevo/editar tratamiento -->
+  <div class="modal-overlay" id="modal-catalogo">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3 id="modal-titulo">Nuevo tratamiento</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-alert"></div>
+        <input type="hidden" id="cat-id">
+        <div class="form-group">
+          <label>Categoría</label>
+          <select id="cat-categoria">
+            <option value="">Seleccionar categoría...</option>
+            <option>Conservadora</option>
+            <option>Endodoncia</option>
+            <option>Periodoncia</option>
+            <option>Cirugía oral</option>
+            <option>Implantología</option>
+            <option>Ortodoncia</option>
+            <option>Prótesis</option>
+            <option>Estética dental</option>
+            <option>Odontopediatría</option>
+            <option>Diagnóstico</option>
+            <option>DTM</option>
+            <option>Anestesia</option>
+            <option>Urgencias</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nombre del tratamiento *</label>
+          <input type="text" id="cat-nombre" placeholder="Ej: Empaste composite 1 cara...">
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea id="cat-descripcion" placeholder="Descripción del tratamiento..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Precio base (€) *</label>
+          <input type="number" id="cat-precio" placeholder="0.00" step="0.01" min="0">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+        <button class="btn btn-primary" id="btn-guardar">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/catalogo.js"></script>
+</body>
+</html>

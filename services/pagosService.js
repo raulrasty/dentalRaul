@@ -33,8 +33,12 @@ async function create(pago) {
 }
 
 async function update(id, campos) {
+  // Filtrar campos undefined o null innecesarios
+  const camposLimpios = Object.fromEntries(
+    Object.entries(campos).filter(([_, v]) => v !== undefined)
+  );
   const { data, error } = await supabase
-    .from("pagos").update(campos).eq("id", id).select().single();
+    .from("pagos").update(camposLimpios).eq("id", id).select().single();
   if (error) throw new Error(error.message);
   return data;
 }

@@ -1,0 +1,31 @@
+/* =============================================
+   DENTALRAÚL — usuarios.css
+   ============================================= */
+
+.badge-admin         { background: #ede9fe; color: #5b21b6; }
+.badge-doctor        { background: var(--success-bg); color: var(--success); }
+.badge-recepcionista { background: var(--info-bg); color: var(--info); }
+.badge-activo        { background: var(--success-bg); color: var(--success); }
+.badge-inactivo      { background: var(--danger-bg); color: var(--danger); }
+
+.usuario-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.usuario-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.usuario-nombre { font-weight: 600; font-size: 0.82rem; }

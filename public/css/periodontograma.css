@@ -1,0 +1,309 @@
+/* =============================================
+   DENTALRAÚL — periodontograma.css
+   ============================================= */
+
+.perio-wrapper {
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.perio-tabla {
+  min-width: 900px;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+
+/* Cabecera arcada */
+.perio-arcada-label {
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+/* Fila de dientes */
+.perio-diente-num {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 2px 0;
+  color: var(--primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Diente ausente */
+.perio-col.ausente .perio-diente-num {
+  color: var(--danger);
+  text-decoration: line-through;
+}
+.perio-col.ausente .perio-cell { opacity: 0.2; pointer-events: none; }
+
+/* Diente implante */
+.perio-col.implante .perio-diente-num::after {
+  content: " 🔩";
+  font-size: 0.65rem;
+}
+
+/* Columna por diente */
+.perio-col {
+  border-left: 1px solid var(--border);
+  min-width: 52px;
+}
+.perio-col:first-child { border-left: none; }
+
+/* Celdas de 3 inputs */
+.perio-cell-3 {
+  display: flex;
+  gap: 1px;
+  justify-content: center;
+  padding: 1px 2px;
+}
+
+.perio-input {
+  width: 15px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-size: 0.7rem;
+  padding: 1px 0;
+  background: white;
+  color: var(--text);
+  font-family: monospace;
+}
+
+.perio-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* Input de sangrado (checkbox) - estilos visuales arriba */
+
+/* Input único (movilidad, furca, placa) */
+.perio-input-single {
+  width: 32px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-size: 0.72rem;
+  padding: 2px 0;
+  background: white;
+  margin: 0 auto;
+  display: block;
+  font-family: monospace;
+}
+.perio-input-single:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Etiquetas de fila */
+.perio-row-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  white-space: nowrap;
+  background: var(--surface-alt);
+  border-right: 2px solid var(--border);
+  text-align: right;
+  min-width: 80px;
+}
+
+/* Colores por valor de sondaje */
+.perio-input[data-val="1"], .perio-input[data-val="2"], .perio-input[data-val="3"] {
+  background: #d4f5e2; color: #1a7a45;
+}
+.perio-input[data-val="4"], .perio-input[data-val="5"] {
+  background: #fef3cd; color: #92640a;
+}
+.perio-input[data-val="6"], .perio-input[data-val="7"] {
+  background: #fde8e8; color: #9b1c1c;
+}
+.perio-input[data-val="8"], .perio-input[data-val="9"], .perio-input[data-val="10"] {
+  background: #dc2626; color: white;
+}
+
+/* Gráfica */
+.perio-grafica {
+  margin-top: 1.5rem;
+  overflow-x: auto;
+}
+
+.perio-grafica canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* Separador entre arcadas */
+.perio-separador td {
+  height: 12px;
+  background: var(--bg);
+  border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+}
+
+/* Controles */
+.perio-controles {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface-alt);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.perio-lista-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.perio-lista-item:hover { background: var(--primary-light); }
+.perio-lista-fecha { font-weight: 600; color: var(--text); }
+.perio-lista-doctor { font-size: 0.82rem; color: var(--text-muted); }
+
+/* Nivel de inserción calculado */
+.perio-insercion {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Leyenda colores */
+.perio-leyenda {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+}
+.perio-leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.perio-leyenda-color {
+  width: 14px; height: 14px;
+  border-radius: 2px;
+}
+
+/* =====================
+   MEJORAS INPUTS PERIODONTOGRAMA
+   ===================== */
+
+/* Quitar flechas de inputs numéricos en todos los navegadores */
+.perio-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.perio-input::-webkit-outer-spin-button,
+.perio-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Select movilidad/furca */
+.perio-select-single {
+  width: 36px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-size: 0.72rem;
+  padding: 1px 0;
+  background: white;
+  margin: 0 auto;
+  display: block;
+  font-family: monospace;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align-last: center;
+}
+.perio-select-single:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Checkbox de placa - amarillo */
+.perio-placa {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  padding: 2px;
+}
+
+.perio-placa-cb {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: #f59e0b;
+  opacity: 0;
+  position: absolute;
+}
+
+/* Casillas visuales sangrado y placa sin símbolo check */
+.perio-sangrado,
+.perio-placa {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  padding: 2px;
+}
+
+.perio-cb-wrapper {
+  position: relative;
+  width: 13px;
+  height: 13px;
+}
+
+.perio-cb-visual {
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+  border: 1px solid #94a3b8;
+  background: white;
+  cursor: pointer;
+  display: block;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.perio-cb-wrapper input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Sangrado marcado = rojo sin check */
+.perio-sangrado .perio-cb-wrapper input:checked + .perio-cb-visual {
+  background: #ef4444;
+  border-color: #dc2626;
+}
+
+/* Placa marcada = amarillo sin check */
+.perio-placa .perio-cb-wrapper input:checked + .perio-cb-visual {
+  background: #f59e0b;
+  border-color: #d97706;
+}
+
+/* Input texto numérico sin flechas */
+.perio-input[type="text"] {
+  -moz-appearance: textfield;
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentalRaúl – Agenda</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/agenda.css">
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+
+  <div class="app-layout">
+    <main class="main-content">
+
+      <div class="flex-between mb-2">
+        <div class="page-title">Agenda</div>
+        <div class="vista-toggle">
+          <button class="btn-vista active" id="btn-vista-doctor" data-vista="doctor">Por doctor</button>
+          <button class="btn-vista" id="btn-vista-dia" data-vista="dia">Por día</button>
+        </div>
+      </div>
+
+      <!-- Controles -->
+      <div class="agenda-controles mb-2">
+
+        <!-- Vista por doctor -->
+        <div id="controles-doctor" class="controles-panel">
+          <select id="sel-doctor" class="agenda-select">
+            <option value="">Seleccionar doctor...</option>
+          </select>
+          <div class="semana-nav">
+            <button class="btn btn-secondary btn-sm" id="btn-semana-ant">← Anterior</button>
+            <span id="label-semana" class="semana-label"></span>
+            <button class="btn btn-secondary btn-sm" id="btn-semana-sig">Siguiente →</button>
+          </div>
+        </div>
+
+        <!-- Vista por día -->
+        <div id="controles-dia" class="controles-panel hidden">
+          <input type="date" id="sel-fecha" class="agenda-select">
+          <div class="leyenda" id="leyenda"></div>
+        </div>
+
+      </div>
+
+      <!-- Leyenda especialidades -->
+      <div class="leyenda mb-2" id="leyenda-especialidades">
+        <span class="leyenda-item" style="--color:#3b82f6">Odontología general</span>
+        <span class="leyenda-item" style="--color:#8b5cf6">Ortodoncia</span>
+        <span class="leyenda-item" style="--color:#ef4444">Endodoncia</span>
+        <span class="leyenda-item" style="--color:#f59e0b">Periodoncia</span>
+        <span class="leyenda-item" style="--color:#10b981">Implantología</span>
+        <span class="leyenda-item" style="--color:#ec4899">Cirugía oral</span>
+        <span class="leyenda-item" style="--color:#06b6d4">Odontopediatría</span>
+        <span class="leyenda-item" style="--color:#84cc16">Estética dental</span>
+        <span class="leyenda-item" style="--color:#f97316">Blanqueamiento</span>
+        <span class="leyenda-item" style="--color:#dc2626">Urgencia</span>
+      </div>
+
+      <!-- Grid agenda -->
+      <div class="agenda-wrapper card">
+        <div id="agenda-container">
+          <div class="empty-state">
+            <div class="empty-state-icon"></div>
+            <p>Selecciona un doctor o una fecha para ver la agenda</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal nueva/editar cita -->
+  <div class="modal-overlay" id="modal-cita">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-titulo">Nueva cita</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-alert"></div>
+        <input type="hidden" id="cita-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Paciente *</label>
+            <div class="paciente-buscador-wrapper">
+              <input type="text" id="c-paciente-buscador" class="input-buscador-paciente"
+                placeholder="Buscar paciente por nombre o apellidos..."
+                autocomplete="off">
+              <input type="hidden" id="c-paciente">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Doctor *</label>
+            <select id="c-doctor" required>
+              <option value="">Seleccionar doctor...</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha *</label>
+            <input type="date" id="c-fecha" required>
+          </div>
+          <div class="form-group">
+            <label>Hora *</label>
+            <input type="time" id="c-hora" step="900" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Duración</label>
+            <select id="c-duracion">
+              <option value="15">15 minutos</option>
+              <option value="30" selected>30 minutos</option>
+              <option value="45">45 minutos</option>
+              <option value="60">1 hora</option>
+              <option value="90">1 hora 30 min</option>
+              <option value="120">2 horas</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Especialidad</label>
+            <select id="c-especialidad">
+              <option value="">Seleccionar...</option>
+              <option value="Odontología general">Odontología general</option>
+              <option value="Ortodoncia">Ortodoncia</option>
+              <option value="Endodoncia">Endodoncia</option>
+              <option value="Periodoncia">Periodoncia</option>
+              <option value="Implantología">Implantología</option>
+              <option value="Cirugía oral">Cirugía oral</option>
+              <option value="Odontopediatría">Odontopediatría</option>
+              <option value="Estética dental">Estética dental</option>
+              <option value="Blanqueamiento">Blanqueamiento</option>
+              <option value="Urgencia">Urgencia</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Estado</label>
+            <select id="c-estado">
+              <option value="pendiente">Pendiente</option>
+              <option value="confirmada">Confirmada</option>
+              <option value="en_espera">En sala de espera</option>
+              <option value="en_consulta">En consulta</option>
+              <option value="completada">Completada</option>
+              <option value="cancelada">Cancelada</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Motivo / Notas</label>
+          <textarea id="c-motivo" placeholder="Descripción de la consulta..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+        <button class="btn btn-danger hidden" id="btn-eliminar-cita">Eliminar</button>
+        <button class="btn btn-primary" id="btn-guardar">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal bloqueo -->
+  <div class="modal-overlay" id="modal-bloqueo">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3>Bloquear hueco</h3>
+        <button class="modal-close" onclick="document.getElementById('modal-bloqueo').classList.remove('active')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="b-doctor">
+        <input type="hidden" id="b-fecha">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Hora inicio</label>
+            <input type="time" id="b-hora-inicio" step="900">
+          </div>
+          <div class="form-group">
+            <label>Hora fin</label>
+            <input type="time" id="b-hora-fin" step="900">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Motivo (opcional)</label>
+          <input type="text" id="b-motivo" placeholder="Ej: Descanso, Formación...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-bloqueo-cancelar">Cancelar</button>
+        <button class="btn btn-danger" id="btn-bloqueo-guardar">Bloquear</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/agenda.js"></script>
+</body>
+</html>

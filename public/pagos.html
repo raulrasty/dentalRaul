@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentalRaúl – Pagos</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pagos.css">
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+
+  <div class="app-layout">
+    <main class="main-content">
+
+      <div class="flex-between mb-2">
+        <div class="page-title">Pagos</div>
+        <button class="btn btn-primary" id="btn-nuevo-pago">+ Registrar pago</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="pagos-stats mb-2">
+        <div class="pago-stat pago-stat-green">
+          <span class="pago-stat-valor" id="stat-mes">—</span>
+          <span class="pago-stat-label">Ingresos este mes</span>
+        </div>
+        <div class="pago-stat pago-stat-orange">
+          <span class="pago-stat-valor" id="stat-pendiente-total">—</span>
+          <span class="pago-stat-label">Total pendiente</span>
+        </div>
+        <div class="pago-stat pago-stat-blue">
+          <span class="pago-stat-valor" id="stat-num-pendientes">—</span>
+          <span class="pago-stat-label">Pagos pendientes</span>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs mb-2">
+        <button class="tab active" data-tab="todos">Todos</button>
+        <button class="tab" data-tab="pendiente">Pendientes</button>
+        <button class="tab" data-tab="pagado">Pagados</button>
+      </div>
+
+      <!-- Tabla -->
+      <div class="card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Fecha</th>
+                <th>Importe</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-pagos">
+              <tr><td colspan="5">
+                <div class="empty-state">
+                  <div class="empty-state-icon"></div>
+                  <p>Cargando pagos...</p>
+                </div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal pago -->
+  <div class="modal-overlay" id="modal-pago">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3 id="modal-titulo">Registrar pago</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-alert"></div>
+        <input type="hidden" id="pago-id">
+        <div class="form-group">
+          <label>Paciente *</label>
+          <select id="p-paciente" required>
+            <option value="">Seleccionar paciente...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Importe (€) *</label>
+          <input type="number" id="p-importe" placeholder="0.00" step="0.01" min="0" required>
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select id="p-estado">
+            <option value="pendiente">Pendiente</option>
+            <option value="pagado">Pagado</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+        <button class="btn btn-primary" id="btn-guardar">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/pagos.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+/* =============================================
+   DENTALRAÚL — pagos.css
+   ============================================= */
+
+.pagos-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.pago-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  border-left: 3px solid var(--border);
+}
+
+.pago-stat-green  { border-left-color: var(--success); }
+.pago-stat-orange { border-left-color: #d97706; }
+.pago-stat-blue   { border-left-color: var(--primary); }
+
+.pago-stat-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.pago-stat-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .pagos-stats { grid-template-columns: 1fr; }
+}

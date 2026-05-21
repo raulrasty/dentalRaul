@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentalRaúl – Presupuestos</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/presupuestos.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+
+  <div class="app-layout">
+    <main class="main-content">
+      <div class="flex-between mb-2">
+        <div class="page-title">Presupuestos</div>
+        <button class="btn btn-primary" id="btn-nuevo">+ Nuevo presupuesto</button>
+      </div>
+
+      <div class="tabs mb-2">
+        <button class="tab active" data-estado="">Todos</button>
+        <button class="tab" data-estado="borrador">Borrador</button>
+        <button class="tab" data-estado="enviado">Enviado</button>
+        <button class="tab" data-estado="aceptado">Aceptado</button>
+        <button class="tab" data-estado="rechazado">Rechazado</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Fecha</th>
+                <th>Notas</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-presupuestos"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal nuevo presupuesto -->
+  <div class="modal-overlay" id="modal-presupuesto">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3>Nuevo presupuesto</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-alert"></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Paciente *</label>
+            <div class="paciente-buscador-wrapper">
+              <input type="text" id="pres-paciente-input" class="input-buscador-paciente"
+                placeholder="Buscar paciente..." autocomplete="off">
+              <input type="hidden" id="pres-paciente">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notas</label>
+            <input type="text" id="pres-notas" placeholder="Observaciones del presupuesto...">
+          </div>
+        </div>
+
+        <div class="lineas-header">
+          <h4>Tratamientos</h4>
+          <button class="btn btn-secondary btn-sm" onclick="añadirLinea()">+ Añadir tratamiento</button>
+        </div>
+
+        <div id="lineas-container"></div>
+
+        <div class="presupuesto-total">
+          <span>Total:</span>
+          <strong id="total-presupuesto">0.00 €</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+        <button class="btn btn-primary" id="btn-guardar">Guardar presupuesto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal detalle presupuesto -->
+  <div class="modal-overlay" id="modal-detalle">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3 id="detalle-titulo">Presupuesto</h3>
+        <button class="modal-close" id="detalle-close">✕</button>
+      </div>
+      <div class="modal-body" id="detalle-body"></div>
+      <div class="modal-footer" id="detalle-footer"></div>
+    </div>
+  </div>
+
+  <!-- jsPDF desde CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/pdf-presupuesto.js"></script>
+  <script src="js/paciente-buscador.js"></script>
+  <script src="js/presupuestos.js"></script>
+</body>
+</html>

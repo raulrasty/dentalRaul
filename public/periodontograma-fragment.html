@@ -1,0 +1,54 @@
+<!-- 
+  AÑADIR ESTO AL paciente-detalle.html:
+  
+  1. En las tabs, añadir:
+     <button class="tab" data-tab="periodontograma">📊 Periodontograma</button>
+
+  2. Antes del modal tratamiento, añadir este bloque completo:
+-->
+
+<!-- TAB: PERIODONTOGRAMA -->
+<div id="tab-periodontograma" class="tab-content hidden">
+
+  <!-- Lista de periodontogramas guardados -->
+  <div id="perio-lista-view">
+    <div class="flex-between mb-2">
+      <h2>Periodontogramas</h2>
+      <button class="btn btn-primary" onclick="nuevoPeriodontograma()">+ Nuevo periodontograma</button>
+    </div>
+    <div id="perio-lista"></div>
+  </div>
+
+  <!-- Editor del periodontograma -->
+  <div id="perio-editor-view" class="hidden">
+    <div class="flex-between mb-2">
+      <h2 id="perio-editor-titulo">Nuevo periodontograma</h2>
+      <div style="display:flex;gap:0.5rem;">
+        <button class="btn btn-secondary" onclick="volverListaPerio()">Volver</button>
+        <button class="btn btn-secondary" onclick="exportarPeriodontogramaPDF(
+          document.getElementById('paciente-nombre').textContent,
+          document.getElementById('perio-fecha').value,
+          document.getElementById('perio-notas').value
+        )">📥 PDF</button>
+        <button class="btn btn-primary" onclick="guardarPerio()">💾 Guardar</button>
+      </div>
+    </div>
+
+    <div class="perio-controles">
+      <div class="form-group" style="margin:0;flex:1;">
+        <label>Fecha</label>
+        <input type="date" id="perio-fecha" style="padding:0.4rem 0.75rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:0.88rem;">
+      </div>
+      <div class="form-group" style="margin:0;flex:2;">
+        <label>Notas</label>
+        <input type="text" id="perio-notas" placeholder="Observaciones del periodontograma..." style="padding:0.4rem 0.75rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:0.88rem;width:100%;">
+      </div>
+      <div id="perio-alert"></div>
+    </div>
+
+    <div class="card" style="padding:1rem;">
+      <div id="perio-container"></div>
+    </div>
+  </div>
+
+</div>
